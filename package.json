@@ -1,0 +1,31 @@
+{
+  "name": "agent-loadout",
+  "private": true,
+  "description": "Tooling for the agent-loadout plugin. The plugin itself is described by plugin.json.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "generate": "node scripts/generate.ts",
+    "validate": "node scripts/validate.ts",
+    "new:skill": "node scripts/new-skill.ts",
+    "test": "node --test \"tests/**/*.test.ts\"",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint:md": "markdownlint-cli2",
+    "lint:skills": "vally lint skills --strict && vally lint .claude/skills --strict && vally lint --eval-spec evals --strict",
+    "lint:skills-ref": "node scripts/skills-ref.ts",
+    "lint:claude": "npx --yes @anthropic-ai/claude-code@2.1.329 plugin validate . --strict",
+    "check": "npm run validate && npm run typecheck && npm test && npm run lint:md && npm run lint:skills",
+    "check:all": "npm run check && npm run lint:skills-ref && npm run lint:claude"
+  },
+  "devDependencies": {
+    "@microsoft/vally-cli": "0.21.0",
+    "@types/node": "^22.19.0",
+    "ajv": "^8.20.0",
+    "markdownlint-cli2": "^0.24.2",
+    "typescript": "^7.0.2",
+    "yaml": "^2.9.1"
+  }
+}
