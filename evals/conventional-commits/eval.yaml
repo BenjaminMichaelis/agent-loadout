@@ -1,0 +1,70 @@
+name: conventional-commits
+description: Activates for commit message and PR title work, and produces Conventional Commits headers.
+version: "1.0"
+type: capability
+defaults:
+  runs: 3
+  timeout: 3m
+scoring:
+  threshold: 1.0
+agent_environment:
+  skills:
+    - ../../skills/conventional-commits
+stimuli:
+  - name: write-feat-commit
+    prompt: |
+      I added a --json flag to our CLI's `list` command so it prints machine-readable
+      output. Write the commit message for this change. Reply with only the message.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [conventional-commits]
+      - type: output-matches
+        config:
+          pattern: '(?m)^feat(\([a-z0-9-]+\))?: [a-z]'
+
+  - name: breaking-change
+    prompt: |
+      We removed the deprecated /v1/users endpoint from our public REST API.
+      Write a commit message for it. Reply with only the message.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [conventional-commits]
+      - type: output-matches
+        config:
+          pattern: '(?m)(^[a-z]+(\([a-z0-9-]+\))?!: |^BREAKING CHANGE: )'
+
+  - name: pr-title
+    prompt: |
+      Suggest a pull request title for a change that fixes a null reference crash
+      when the config file is empty. Reply with only the title.
+    tags: { priority: p1, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [conventional-commits]
+      - type: output-matches
+        config:
+          pattern: '(?m)^fix(\([a-z0-9-]+\))?: [a-z]'
+
+  - name: unrelated-regex-question
+    prompt: |
+      Write a JavaScript regular expression that matches a US ZIP code, with an
+      optional four-digit extension.
+    tags: { priority: p0, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [conventional-commits]
+
+  - name: unrelated-git-question
+    prompt: |
+      How do I undo my last local git commit but keep the changes in my working tree?
+    tags: { priority: p1, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [conventional-commits]

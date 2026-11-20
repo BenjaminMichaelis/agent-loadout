@@ -1,0 +1,12 @@
+paths:
+  skills: skills
+  evals: evals
+suites:
+  ci-gate:
+    description: PR gate, p0 stimuli only
+    filter:
+      priority: [p0]
+  full:
+    description: All stimuli
+    filter:
+      priority: [p0, p1, p2]
