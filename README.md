@@ -3,8 +3,11 @@
 A portable loadout of AI agent skills that works across GitHub Copilot, Claude
 Code, Cursor, and OpenCode. Each skill is a standard
 [Agent Skill](https://agentskills.io), and the repository root is an
-[Agent Plugins](https://agent-plugins.org) package. That means one source installs
-natively in each harness, with no per-harness copies to keep in sync.
+[Agent Plugins](https://agent-plugins.org) package with a generated Claude Code
+manifest. GitHub Copilot, Claude Code, and Cursor install it as a native plugin.
+OpenCode and other harnesses install the same skill folders with the
+[`skills`](https://github.com/vercel-labs/skills) CLI. There are no per-harness
+copies to keep in sync.
 
 ## Skills
 
