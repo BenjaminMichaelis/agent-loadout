@@ -1,0 +1,33 @@
+{
+  "name": "agent-loadout",
+  "owner": {
+    "name": "Benjamin Michaelis",
+    "url": "https://github.com/BenjaminMichaelis"
+  },
+  "metadata": {
+    "description": "Benjamin Michaelis's loadout of portable AI agent skills for GitHub Copilot, Claude Code, Cursor, and OpenCode.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "agent-loadout",
+      "version": "0.1.0",
+      "description": "Benjamin Michaelis's loadout of portable AI agent skills for GitHub Copilot, Claude Code, Cursor, and OpenCode.",
+      "author": {
+        "name": "Benjamin Michaelis",
+        "url": "https://github.com/BenjaminMichaelis"
+      },
+      "homepage": "https://github.com/BenjaminMichaelis/agent-loadout",
+      "repository": "https://github.com/BenjaminMichaelis/agent-loadout",
+      "license": "MIT",
+      "keywords": [
+        "agent-skills",
+        "copilot",
+        "claude-code",
+        "cursor",
+        "opencode"
+      ],
+      "source": "./"
+    }
+  ]
+}
