@@ -1,0 +1,11 @@
+node_modules/
+.venv/
+__pycache__/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+# Local harness state
+.claude/settings.local.json
+.vally/
