@@ -11,4 +11,6 @@ All notable changes to this project are documented here. The format follows
 - Agent Plugins root manifest with generated Claude Code and Copilot CLI
   marketplace manifests.
 - `conventional-commits` skill.
+- `docfx-github-pages` skill with site templates, an offline link checker,
+  trigger/non-trigger eval cases, and checker tests on Linux and Windows.
 - Validation tooling, CI workflows, and repository-maintenance skills.

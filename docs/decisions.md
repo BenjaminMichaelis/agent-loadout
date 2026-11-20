@@ -30,7 +30,9 @@ truth for name, version, description, and metadata (R3).
 - Copilot CLI loads it directly and prefers it over `.claude-plugin/plugin.json`
   (R12).
 - Start with one plugin. Split into bundles only when the skill count or audience
-  makes a single install too heavy.
+  makes a single install too heavy, or release lifecycles need to diverge.
+- Keep each skill's assets, references, and helpers in its own directory. Optional
+  execution tools such as DocFX and Python do not require a separate plugin.
 
 ## D3. Harness manifests are generated, never hand-edited
 

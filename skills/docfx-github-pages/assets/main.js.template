@@ -1,0 +1,10 @@
+export default {
+  defaultTheme: 'auto',
+  iconLinks: [
+    {
+      icon: 'github',
+      href: '__REPO_URL__',
+      title: 'View source on GitHub',
+    },
+  ],
+};

@@ -2,8 +2,9 @@
 
 ## Setup
 
-Requires Node.js 22.18 or later. Python with [uv](https://docs.astral.sh/uv/)
-is optional and only used for the `skills-ref` spec check.
+Requires Node.js 22.18 or later. Python 3.10+ is optional for the DocFX helper
+tests, and [uv](https://docs.astral.sh/uv/) is used for the `skills-ref` spec check.
+CI runs both separately from `npm run check`.
 
 ```sh
 npm ci
@@ -37,6 +38,7 @@ messages and PR titles. Add user-visible changes to `CHANGELOG.md` under
 |---|---|---|
 | Skills, evals, manifests, drift | `npm run validate` | `ci.yml` |
 | Script tests (Linux and Windows) | `npm test` | `ci.yml` |
+| DocFX helper tests (Linux and Windows) | `python -B -m unittest discover -s skills/docfx-github-pages/scripts -p test_check_docs.py` | `ci.yml` |
 | Types | `npm run typecheck` | `ci.yml` |
 | Vally skill and eval lint | `npm run lint:skills` | `ci.yml` |
 | Agent Skills reference validator | `npm run lint:skills-ref` | `ci.yml` |

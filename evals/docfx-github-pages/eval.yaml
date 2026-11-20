@@ -1,0 +1,82 @@
+name: docfx-github-pages
+description: Activates for DocFX sites and checks strict builds, offline links, and preserved anchors without activating for unrelated documentation tasks.
+version: "1.0"
+type: capability
+defaults:
+  runs: 3
+  timeout: 3m
+scoring:
+  threshold: 1.0
+agent_environment:
+  skills:
+    - ../../skills/docfx-github-pages
+stimuli:
+  - name: create-docfx-site
+    prompt: |
+      We have a .NET library with a README and no documentation site. Plan a
+      DocFX site for GitHub Pages using a modern theme. Include the strict build
+      command and an offline link check. Give me the plan and commands only;
+      do not change files, commit, push, or publish.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [docfx-github-pages]
+      - type: output-matches
+        config:
+          pattern: 'dotnet\s+docfx\s+build\s+(?:docfx\.json\s+)?--warningsAsErrors'
+      - type: output-matches
+        config:
+          pattern: 'scripts[/\\]check_docs\.py'
+
+  - name: check-docfx-project-prefix-and-anchor
+    prompt: |
+      Our generated DocFX site is in _site and will be served at
+      https://example.github.io/Library/. Nested links must respect that prefix,
+      and README.html#usage must keep working even if nothing links to it.
+      Show the bundled offline checker's command for enforcing both. Do not
+      contact external sites or change files.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [docfx-github-pages]
+      - type: output-matches
+        config:
+          pattern: 'scripts[/\\]check_docs\.py'
+      - type: output-matches
+        config:
+          pattern: '--base-url\s+["'']?https://example\.github\.io/Library/'
+      - type: output-matches
+        config:
+          pattern: '--require-anchor\s+["'']?README\.html#usage'
+
+  - name: readme-typo-only
+    prompt: |
+      Fix the spelling of "instalation" to "installation" in our README.
+      Do not reorganize the documentation or add tooling.
+    tags: { priority: p0, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [docfx-github-pages]
+
+  - name: keep-mkdocs
+    prompt: |
+      Add a troubleshooting page to our existing MkDocs site and link it from
+      mkdocs.yml. Keep MkDocs and do not migrate to another generator.
+    tags: { priority: p0, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [docfx-github-pages]
+
+  - name: deploy-starlight
+    prompt: |
+      Add GitHub Pages CI for our existing Astro Starlight documentation.
+      Use the current Node build and keep Starlight.
+    tags: { priority: p1, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [docfx-github-pages]

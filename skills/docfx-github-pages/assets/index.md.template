@@ -1,0 +1,78 @@
+---
+title: "__PROJECT_NAME__"
+description: "__PROJECT_PURPOSE__"
+_layout: landing
+---
+
+<div class="docs-hero">
+<div class="hero-copy">
+
+<p class="eyebrow">__EYEBROW__</p>
+
+# __HEADLINE__
+
+<p class="hero-description">__PROJECT_PURPOSE__</p>
+
+__INTRO__
+
+<div class="hero-actions">
+
+[Get started](getting-started.md) [Explore the reference](../README.md#__CATALOG_ANCHOR__)
+
+</div>
+
+</div>
+<figure class="contract-preview">
+<div class="preview-header"><span class="preview-file">__EXAMPLE_FILE__</span></div>
+<div class="preview-body">
+<p class="preview-label">Before</p>
+
+```__CODE_LANGUAGE__
+__BEFORE_CODE__
+```
+
+<p class="preview-label">After</p>
+
+```__CODE_LANGUAGE__
+__AFTER_CODE__
+```
+
+</div>
+<figcaption>__EXAMPLE_REASON__</figcaption>
+</figure>
+</div>
+
+<section class="docs-paths" aria-labelledby="find-your-starting-point">
+
+## Find your starting point
+
+<div class="path-grid">
+<div class="doc-path">
+
+### Start with a working example
+
+Follow the prerequisites and first steps, and see what to expect.
+
+[Get started](getting-started.md)
+
+</div>
+<div class="doc-path">
+
+### Understand your options
+
+See the supported configuration and defaults.
+
+[Read the configuration guide](configuration.md)
+
+</div>
+<div class="doc-path">
+
+### Find the details
+
+Look up the project's reference material.
+
+[Browse the reference](../README.md#__CATALOG_ANCHOR__)
+
+</div>
+</div>
+</section>
