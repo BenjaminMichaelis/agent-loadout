@@ -71,12 +71,12 @@ Resolve these tokens from verified facts:
 | `__DEFAULT_BRANCH__` | Agreed source/deployment branch, not blindly `main` |
 | `__DOCS_SDK__` | Supported SDK version pattern compatible with tool/global SDK selection |
 | `__TOOL_MANIFEST__` | Actual manifest path, using `/` separators in workflow YAML |
-| `__CATALOG_ANCHOR__` | A real README reference heading, e.g. `analyzer-catalog` or `reference` |
+| `__CATALOG_ANCHOR__` | A real README reference heading, e.g. `commands` or `reference` |
 | `__EXAMPLE_FILE__`, `__CODE_LANGUAGE__`, `__BEFORE_CODE__`, `__AFTER_CODE__`, `__EXAMPLE_REASON__` | A verified example, or remove/redesign the comparison panel |
 
 There must be no `__TOKEN__` markers left in generated repository files. Preserve GitHub expressions such as `${{ github.ref }}`: these are not template placeholders.
 
-The supplied workflow pins were verified against official action releases on 2026-11-20. Check current compatibility and update verified pins when needed; never invent a commit SHA or silently switch to a third-party deployment action.
+Verify workflow pins against official action releases and check compatibility when adopting the template. Never invent a commit SHA or silently switch to a third-party deployment action.
 
 ## Pin DocFX through the package manager
 
@@ -104,13 +104,13 @@ The mappings produce:
 | `docs/index.md` | `index.html` |
 | `README.md` | `README.html` |
 | `docs/getting-started.md` | `docs/getting-started.html` |
-| `docs/rules/ACTUAL-ID.md` | `docs/rules/ACTUAL-ID.html` |
+| `docs/reference/command.md` | `docs/reference/command.html` |
 
 Write relative Markdown links against the source layout. DocFX maps them to output destinations. Verify that result; do not assume relocating the landing page preserves every manually written HTML URL.
 
-The root TOC is the top navbar. A `href: docs/` reference points to the first article of `docs/toc.yml`; that sidebar should list the real guide/reference pages. Add the target project's rules or commands, not this case study's diagnostic IDs.
+The root TOC is the top navbar. A `href: docs/` reference points to the first article of `docs/toc.yml`; that sidebar should list the project's actual guide/reference pages.
 
-Preserve README anchors that existing consumers use. For example, an analyzer can continue linking to its old README heading, while the heading points to a new detailed rule page. Move runtime help URLs only after the site exists and the change is separately justified.
+Preserve README anchors that existing consumers use. Keep a linked heading as a short pointer to the new canonical page. Move runtime help URLs only after the site exists and the change is separately justified.
 
 ## Build and validate
 
@@ -128,10 +128,10 @@ Use the actual site URL, not the example above. The checker performs no network 
 Protect an externally consumed anchor even when no page links to it:
 
 ```powershell
-python scripts\check_docs.py _site --base-url https://OWNER.github.io/REPOSITORY/ --require-anchor README.html#actual-rule-id
+python scripts\check_docs.py _site --base-url https://OWNER.github.io/REPOSITORY/ --require-anchor README.html#actual-id
 ```
 
-Derive those anchor arguments from real help-link code, old published headings, or another verified contract. Do not invent a diagnostic prefix.
+Derive those anchor arguments from real help-link code, old published headings, or another verified contract.
 
 The helper's own regressions can be run before reusing or modifying it:
 
@@ -180,3 +180,14 @@ Add a short, project-specific guide explaining:
 ## Harness notes
 
 Resolve bundled resources relative to the installed skill directory, which may be inside a plugin cache or a project skill folder. Do not hard-code a personal installation path or assume a local installation is available to cloud agents.
+
+## Official documentation
+
+Consult these sources when configuration or deployment behavior needs confirmation:
+
+- [DocFX quick start](https://dotnet.github.io/docfx/)
+- [DocFX template customization](https://dotnet.github.io/docfx/docs/template.html)
+- [DocFX configuration and URL mapping](https://dotnet.github.io/docfx/docs/config.html)
+- [DocFX navigation and reference TOCs](https://dotnet.github.io/docfx/docs/table-of-contents.html)
+- [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)
+- [GitHub Pages REST API](https://docs.github.com/en/rest/pages/pages)

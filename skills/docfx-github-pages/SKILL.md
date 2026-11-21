@@ -7,16 +7,15 @@ compatibility: DocFX builds require a compatible .NET SDK; the offline checker r
 
 # Repository documentation with DocFX and GitHub Pages
 
-Turn the current repository's actual behavior into clear, maintainable documentation, then a polished static site. This skill includes the research and lessons from building the [.NET Wrangler docs](https://benjaminmichaelis.github.io/DotNetWrangler/), but is not specific to analyzers.
+Document the target repository's verified behavior. Create or maintain its DocFX site within the requested scope.
 
-Default scope: improve content, implement the site, and verify it locally. Do not commit, push, change repository settings, or publish unless the user authorizes those actions. A skill invocation does not grant those permissions. Repository and user instructions still apply.
+Content-only changes do not require a new theme, tooling, CI, or deployment. For site setup, implement and verify locally. Do not commit, push, change repository settings, or publish unless the user authorizes those actions. A skill invocation does not grant those permissions.
 
 ## Resources
 
 Load only the resources needed for the current phase:
 
-- [Research and decisions](references/research.md): generator comparisons, IEvangelist examples, primary sources, and lessons.
-- [Implementation blueprint](references/implementation.md): layout, placeholder meanings, commands, CI integration, and publishing.
+- [Implementation blueprint](references/implementation.md): layout, placeholder meanings, commands, CI integration, publishing, and official documentation.
 - [DocFX configuration](assets/docfx.json.template).
 - [Pages workflow](assets/docs.yml.template), including an offline link check.
 - [Top navigation](assets/toc.yml.template) and [documentation sidebar](assets/docs-toc.yml.template).
@@ -45,14 +44,12 @@ If Pages is not enabled, use the canonical repository identity to prepare the ex
 
 Ask only about decisions that materially change the approach or cannot be established from the repository. State assumptions otherwise.
 
-## 2. Choose the smallest suitable approach
+## 2. Preserve scope and existing tooling
 
-- Markdown-only request: reorganize content and stop; do not install a generator.
-- A .NET-oriented site like the reference: use DocFX's modern template plus an overlay, normally without generated API metadata.
-- A different existing generator: keep it unless a migration is requested.
-- Explicit preference for frontend-oriented design or MDX: discuss Astro Starlight rather than forcing DocFX.
-
-See the research for Just the Docs, Astro, plain HTML, and time-sensitive ecosystem caveats. Do not turn a simple docs site into an application or introduce an AppHost, backend, database, or Node toolchain just for styling.
+- For content-only requests, change the relevant pages and navigation, then validate with existing tooling.
+- For a new DocFX site, use the modern template with a small overlay.
+- Preserve an existing theme, layout, and publishing setup unless the request requires changing them.
+- Keep another generator unless a migration is explicitly requested; do not force DocFX.
 
 ## 3. Make the content clear first
 
@@ -65,8 +62,6 @@ Move detail to canonical Markdown pages under the existing documentation directo
 - Configuration: defaults versus opt-in behavior, scope, examples, and failure cases.
 - Reference: one page per rule, command, or public feature when it merits a page.
 - Troubleshooting and intentional exceptions where the project actually needs them.
-
-For analyzers, include diagnostic title/ID, default severity, code-fix availability, why it exists, reported/preferred code, applicability, limitations, and suppression/configuration links. Confirm these against descriptors, release entries, fixes, and tests.
 
 Keep detailed content in one place. A single README catalog can also be published by DocFX; do not manually maintain a second full catalog. Avoid empty boilerplate pages.
 
@@ -85,17 +80,16 @@ Use the implementation blueprint and assets, adapting to existing paths and conv
 
 The starter maps `docs/index.md` to the site root while keeping other docs at `docs/*.html`, and publishes the README as `README.html`. Check the generated destinations after adapting this mapping.
 
-Do not add generated public API docs unless the audience benefits. Analyzer consumers generally need diagnostic reference pages, not an API catalog of analyzer implementation classes.
+Generate API metadata only when public API reference is part of the requested documentation; do not expose implementation classes by default.
 
 ## 5. Customize without a frontend maintenance burden
 
-Adapt the bundled CSS and landing page to the project's name, audience, tone, and established brand. The starter uses warm light surfaces, restrained accent colors, readable typography, system fonts, and responsive layouts.
+Adapt the bundled CSS and landing page to the project's name, audience, tone, and established brand. Treat the starter's palette and layout as optional defaults.
 
 - Use factual, project-specific copy and a real example. Remove the comparison panel if no meaningful before/after example exists.
 - Keep DocFX's built-in search, highlighting, copy buttons, side navigation, and theme support.
 - Check light and dark colors, code readability, focus indicators, mobile wrapping, and table overflow.
 - Prefer local assets. Do not add analytics, external fonts, or third-party scripts by default.
-- Choose appropriate reference navigation; do not copy Wrangler's IDs, logo, assertions, or promises into unrelated repositories.
 - Do not add custom JavaScript where supported metadata or CSS suffices.
 
 Use available browser tooling to inspect the result. If screenshots or browser tests are unavailable, say what was and was not checked; a successful HTML build is not visual or accessibility verification. Respect tool refusals rather than bypassing them.
@@ -106,9 +100,9 @@ Adapt the workflow template to the real branch, manifest, SDK, paths, and existi
 
 - Pull requests restore the pinned tool, build with `--warningsAsErrors`, and check generated local links offline.
 - The offline checker validates file casing, HTML fragments, CSS assets, the repository URL prefix, and DocFX search-index destinations. It requires only Python's standard library.
-- For anchors with external consumers, add `--require-anchor README.html#actual-id` assertions or equivalent project tests. Derive IDs from this repository; do not hard-code Wrangler's IDs.
+- For anchors with external consumers, add `--require-anchor README.html#actual-id` assertions or equivalent project tests. Derive IDs from the repository's existing links and published headings.
 - Keep external URL checks separate or scheduled: third-party outages should not block ordinary docs PRs.
-- Use official Pages actions with verified immutable commit pins. The template's pins are a tested snapshot; verify compatibility and current releases when adopting it.
+- Use official Pages actions with verified immutable commit pins. Check compatibility and current releases when adopting the template.
 - Give PR builds read-only contents access. Grant `pages: write` and `id-token: write` only to the deploy job.
 - Deploy only the intended branch, after a successful build, through the Pages environment. Do not run deployment on pull requests or commit generated HTML to a publication branch.
 - Watch the checker, manifest, templates, navigation, and workflow in the path filters too.
@@ -143,14 +137,13 @@ If publication is requested:
 3. Enable the repository's Pages workflow source only when authorized; never overwrite an existing domain or visibility policy.
 4. Use the user's Git conventions. Do not create a branch, commit, push, or PR unless requested or required by applicable standing instructions. Do not add an unsolicited co-author.
 5. Watch the actual build/deploy run and check its result. A successful push is not a successful deployment.
-6. Request the returned live URL and representative nested pages, assets, search index, and compatibility anchors. Allow bounded first-deployment propagation retries; surface persistent failures.
-7. If remote `main` advances concurrently, verify your commit remains included. Do not reset or move the user's checkout to make local and remote hashes identical.
+6. Fetch the deployed URL and representative nested pages, assets, search index, and compatibility anchors. Allow bounded first-deployment propagation retries; surface persistent failures.
 
 Only describe the site as live after a successful deployment and HTTP verification. Otherwise report precisely what is ready and what is blocked.
 
 ## Completion
 
-The result should contain:
+For scoped updates, leave only the requested content or configuration changes. For site setup, leave:
 
 - Accurate, single-source Markdown and working navigation.
 - A maintainable, project-specific theme and pinned docs tooling.
@@ -159,12 +152,4 @@ The result should contain:
 - Existing contributor guidance updated only where this documentation workflow changes it.
 - No placeholder tokens, generated HTML in Git, unintended code changes, or unrequested publication.
 
-Summarize what changed and the verified live URL when applicable. Distinguish checks actually run from recommendations. Do not dump this research into the project's README.
-
-## Invocation examples
-
-> Use docfx-github-pages to improve this repository's docs and prepare a modern DocFX site. Leave the changes uncommitted.
->
-> Use docfx-github-pages for Markdown cleanup only; keep our current generator.
->
-> Use docfx-github-pages to build and publish this repository's documentation. You may commit and push the docs changes to the agreed publishing branch; ask before making the site public if repository content is private.
+Summarize what changed and the verified live URL when applicable. Distinguish checks actually run from recommendations.

@@ -1,5 +1,5 @@
 name: docfx-github-pages
-description: Activates for DocFX sites and checks strict builds, offline links, and preserved anchors without activating for unrelated documentation tasks.
+description: Activates for DocFX sites, respects content-only scope, and checks strict builds, offline links, and preserved anchors without activating for unrelated documentation tasks.
 version: "1.0"
 type: capability
 defaults:
@@ -50,6 +50,35 @@ stimuli:
       - type: output-matches
         config:
           pattern: '--require-anchor\s+["'']?README\.html#usage'
+
+  - name: update-existing-docfx-content
+    prompt: |
+      Our DocFX site already has a theme, local tool manifest, and GitHub Pages
+      CI. Plan a content-only update adding docs/commands/cache.md and its
+      docs/toc.yml entry. Document --ttl (default: 300 seconds) and --refresh
+      (bypasses cached results). Give only the page outline and commands for
+      validating the update. Do not add or replace the theme, tooling, CI, or
+      deployment.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [docfx-github-pages]
+      - type: output-matches
+        config:
+          pattern: '--ttl'
+      - type: output-matches
+        config:
+          pattern: '300'
+      - type: output-matches
+        config:
+          pattern: '--refresh'
+      - type: output-matches
+        config:
+          pattern: 'dotnet\s+docfx\s+build\s+(?:docfx\.json\s+)?--warningsAsErrors'
+      - type: output-matches
+        config:
+          pattern: '^(?![\s\S]*dotnet\s+(?:new\s+tool-manifest|tool\s+install))[\s\S]*$'
 
   - name: readme-typo-only
     prompt: |
