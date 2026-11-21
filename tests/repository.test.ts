@@ -28,11 +28,37 @@ describe("validateRepository", () => {
     assert.match(problems, /evals\/orphan: has no matching skill/);
   });
 
-  it("rejects a plugin.json that breaks the Agent Plugins schema", () => {
+  it("enforces SemVer as a repository policy", () => {
+    for (const version of ["one", "01.2.3", "1.2.3-01", "1.2.3-.."]) {
+      const root = copyRepo();
+      const manifestPath = join(root, "plugin.json");
+      const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+      writeFileSync(manifestPath, JSON.stringify({ ...manifest, version }));
+      const problems = validateRepository(root).join();
+      assert.match(problems, /plugin\.json: version must be SemVer/);
+      assert.doesNotMatch(problems, /plugin\.json: \/version must be string/);
+    }
+
     const root = copyRepo();
     const manifestPath = join(root, "plugin.json");
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-    writeFileSync(manifestPath, JSON.stringify({ ...manifest, version: "one" }));
-    assert.match(validateRepository(root).join(), /version must be SemVer/);
+    writeFileSync(manifestPath, JSON.stringify({ ...manifest, version: "1.2.3-alpha.1+build.5" }));
+    assert.doesNotMatch(validateRepository(root).join(), /plugin\.json: version must be SemVer/);
+  });
+
+  it("rejects manifests that violate the Agent Plugins schema", () => {
+    const sourceRoot = copyRepo();
+    const baseManifest = JSON.parse(readFileSync(join(sourceRoot, "plugin.json"), "utf8"));
+    const invalidManifests: Array<{ manifest: object; error: RegExp }> = [
+      { manifest: { name: "agent-loadout" }, error: /plugin\.json: \/ must have required property '\$schema'/ },
+      { manifest: { ...baseManifest, version: 1 }, error: /plugin\.json: \/version must be string/ },
+      { manifest: { ...baseManifest, unexpected: true }, error: /plugin\.json: \/ must NOT have additional properties/ },
+    ];
+
+    for (const { manifest, error } of invalidManifests) {
+      const root = copyRepo();
+      writeFileSync(join(root, "plugin.json"), JSON.stringify(manifest));
+      assert.match(validateRepository(root).join(), error);
+    }
   });
 });
