@@ -27,12 +27,14 @@ the structure.
 ## Commands
 
 Requires Node 22.18 or later. Run `npm ci` once.
+The bundled DocFX helper tests additionally need Python 3.10+.
 
 | Command | Does |
 |---|---|
 | `npm run generate` | Regenerate harness manifests from `plugin.json` |
 | `npm run validate` | Validate skills, evals, and manifests, including the drift check |
 | `npm test` | Run script tests |
+| `python -B -m unittest discover -s skills/docfx-github-pages/scripts -p test_check_docs.py` | Run the bundled DocFX checker tests |
 | `npm run typecheck` | Type-check `scripts/` and `tests/` |
 | `npm run lint:md` | Lint Markdown |
 | `npm run lint:skills` | Vally lint for skills and eval specs (`--strict`) |

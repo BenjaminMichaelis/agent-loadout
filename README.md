@@ -14,7 +14,11 @@ copies to keep in sync.
 | Skill | Use it to |
 |---|---|
 | [conventional-commits](skills/conventional-commits/SKILL.md) | Write commit messages and PR titles that follow Conventional Commits |
+| [docfx-github-pages](skills/docfx-github-pages/SKILL.md) | Build and maintain DocFX documentation sites with GitHub Pages CI and offline link checks |
 | [dotnetup](skills/dotnetup/SKILL.md) | Manage user-level .NET SDKs and runtimes with dotnetup |
+
+DocFX's .NET SDK and Python requirements
+apply only when running its builds or checker, not when installing the plugin.
 
 ## Install
 
