@@ -1,0 +1,57 @@
+name: dotnetup
+description: Checks dotnetup workflows trigger appropriately and recommend safe SDK setup.
+version: "1.0"
+type: capability
+defaults:
+  runs: 3
+  timeout: 3m
+scoring:
+  threshold: 1.0
+agent_environment:
+  skills:
+    - ../../skills/dotnetup
+stimuli:
+  - name: install-repository-sdk
+    prompt: |
+      Install the SDK this repo's global.json requires with dotnetup. Don't change
+      anything else.
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [dotnetup]
+      - type: output-matches
+        config:
+          pattern: 'dotnetup sdk install'
+
+  - name: environment-drift
+    prompt: |
+      I installed an SDK with dotnetup, but `dotnet --version` still reports the
+      older SDK. What should I check?
+    tags: { priority: p0, kind: trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          required: [dotnetup]
+      - type: output-matches
+        config:
+          pattern: 'dotnetup env (show|set)|new terminal'
+
+  - name: global-json-authoring
+    prompt: |
+      Write a global.json that pins this repository to .NET SDK 10.0.103 with
+      latestPatch roll-forward. Don't discuss dotnetup.
+    tags: { priority: p0, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [dotnetup]
+
+  - name: install-node
+    prompt: |
+      Install Node.js 22 with nvm and make it the default version.
+    tags: { priority: p0, kind: non-trigger }
+    graders:
+      - type: skill-invocation
+        config:
+          disallowed: [dotnetup]

@@ -15,8 +15,9 @@ copies to keep in sync.
 |---|---|
 | [conventional-commits](skills/conventional-commits/SKILL.md) | Write commit messages and PR titles that follow Conventional Commits |
 | [docfx-github-pages](skills/docfx-github-pages/SKILL.md) | Build and maintain DocFX documentation sites with GitHub Pages CI and offline link checks |
+| [dotnetup](skills/dotnetup/SKILL.md) | Manage user-level .NET SDKs and runtimes with dotnetup |
 
-Both skills ship in the same plugin. DocFX's .NET SDK and Python requirements
+DocFX's .NET SDK and Python requirements
 apply only when running its builds or checker, not when installing the plugin.
 
 ## Install
