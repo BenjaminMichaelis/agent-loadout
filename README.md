@@ -14,6 +14,7 @@ copies to keep in sync.
 | Skill | Use it to |
 |---|---|
 | [conventional-commits](skills/conventional-commits/SKILL.md) | Write commit messages and PR titles that follow Conventional Commits |
+| [dotnetup](skills/dotnetup/SKILL.md) | Manage user-level .NET SDKs and runtimes with dotnetup |
 
 ## Install
 

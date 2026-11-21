@@ -11,4 +11,5 @@ All notable changes to this project are documented here. The format follows
 - Agent Plugins root manifest with generated Claude Code and Copilot CLI
   marketplace manifests.
 - `conventional-commits` skill.
+- `dotnetup` skill for managing user-level .NET SDKs and runtimes.
 - Validation tooling, CI workflows, and repository-maintenance skills.
