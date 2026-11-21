@@ -36,6 +36,10 @@ skill. Make it:
 - avoid harness names unless the skill is specific to one harness;
 - stay under 1024 characters, aiming for 200 to 400.
 
+For high-impact or hard-to-trigger skills, use
+[description calibration](references/authoring-and-descriptions.md#calibrate-the-description)
+to test realistic trigger and near-miss prompts.
+
 ## 4. Write the body
 
 - Write instructions for an agent, not documentation for a human. Use imperative
@@ -49,6 +53,13 @@ skill. Make it:
 - Put executable helpers in `scripts/`. They must work on Windows, macOS, and Linux,
   or say clearly where they don't.
 - Don't encode the maintainer's personal preferences as universal rules.
+
+Consult the [spec and frontmatter reference](references/agent-skills-spec.md)
+when using optional metadata or organizing a larger skill. For bundled scripts
+or complex commands, follow
+[agent-friendly script guidance](references/scripts-for-agents.md).
+Use [authoring practices](references/authoring-and-descriptions.md) to ground
+instructions in real expertise and refine them against real executions.
 
 ## 5. Write evals
 
