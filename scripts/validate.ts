@@ -5,7 +5,7 @@ import { findDrift } from "./generate.ts";
 import { isMain, listSkills, loadPluginManifest, readJson, ROOT } from "./lib/repo.ts";
 import { validateSkill } from "./lib/skills.ts";
 
-const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/;
 
 export function validateRepository(root = ROOT): string[] {
   const problems: string[] = [];
